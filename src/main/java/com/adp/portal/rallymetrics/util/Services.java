@@ -2,18 +2,18 @@ package com.adp.portal.rallymetrics.util;
 
 public enum Services {
 	
-	MILESTONE("https://rally1.rallydev.com/slm/webservice/v2.0/milestone"),
-	ITERATIONS("https://rally1.rallydev.com/slm/webservice/v2.0/iteration"),
-	DEFECTS("https://rally1.rallydev.com/slm/webservice/v2.0/defect"),
-	USER_STORIES("https://rally1.rallydev.com/slm/webservice/v2.0/hierarchicalrequirement");
+	MILESTONE("milestone"),
+	ITERATION("iteration"),
+	DEFECT("defect"),
+	USER_STORY("hierarchicalrequirement");
 	
-	private Services(String url){
-		this.url = url;
+	private Services(String value){
+		this.value = value;
 	}
 	
-	private String url;
+	private String value;
 
-	public String getUrl() {
-		return url;
+	public String getValue() {
+		return value;
 	}
 }	

@@ -23,11 +23,11 @@ public class RestApiFactory {
 	private static final String API_KEY = "_yZ7Lu3WT6ucPMywpbSuJG4MBxUDyu8b8obPT8g";
 
 	// If using a proxy specify full url, like http://my.proxy.com:8000
-	private static final String PROXY_SERVER = null;
+	private static final String PROXY_SERVER = "http://usproxy.es.oneadp.com:8080";
 
 	// If using an authenticated proxy server specify the username and password
-	private static final String PROXY_USERNAME = null;
-	private static final String PROXY_PASSWORD = null;
+	private static final String PROXY_USERNAME = "ES\\TorresR";
+	private static final String PROXY_PASSWORD = "ADPadp11";
 
 	public static RallyRestApi getRestApi() {
 		RallyRestApi restApi = null;
