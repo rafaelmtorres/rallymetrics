@@ -2,7 +2,7 @@ package com.adp.portal.rallymetrics.controller;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,13 +18,12 @@ import com.rallydev.rest.util.Fetch;
 import com.rallydev.rest.util.QueryFilter;
 
 @RestController
-@RequestMapping(value="rallyapi")
 public class RallyController {
 
 	private final RallyRestApi rallyRestApi = RestApiFactory.getRestApi();
 
-	@RequestMapping(value="/milestones", method = RequestMethod.GET)
-	public String getMilestoneList(@RequestParam(value="numberOfMilestones", defaultValue="5") int numberOfMilestones) throws IOException {
+	@RequestMapping(value="/milestones", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getMilestoneList(@RequestParam(value="numberOfMilestones", defaultValue="5") int numberOfMilestones) throws IOException {
 		
 		QueryRequest milestoneQuery = new QueryRequest(Services.MILESTONE.getValue());
 		milestoneQuery.setQueryFilter(new QueryFilter("Name", "contains", "Portal R9"));
@@ -34,11 +33,11 @@ public class RallyController {
 		
 		QueryResponse response = rallyRestApi.query(milestoneQuery);
 		
-		return response.getResults().toString();
+		return ResponseEntity.ok(response.getResults().toString());
 	}
 	
-	@RequestMapping(value = "/userstories", method = RequestMethod.GET)
-	public ResponseEntity<String> getUserStoriesByRelease(@RequestParam(value="milestone", required=true) String milestone)
+	@RequestMapping(value = "/userstories", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getUserStoriesByRelease(@RequestParam(value="milestone") String milestone)
 			throws IOException {
 
 		QueryRequest usQuery = new QueryRequest(Services.USER_STORY.getValue());
@@ -48,10 +47,10 @@ public class RallyController {
 		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
-		return new ResponseEntity<String>(queryResponse.getResults().toString(), HttpStatus.OK);
+		return ResponseEntity.ok().body(queryResponse.getResults().toString());
 	}
 	
-	@RequestMapping(value = "/defects", method = RequestMethod.GET)
+	@RequestMapping(value = "/defects", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getDefectsByRelease(@RequestParam(value="milestone", required=true) String milestone) throws IOException {
 		
 		QueryRequest usQuery = new QueryRequest(Services.DEFECT.getValue());
@@ -61,6 +60,6 @@ public class RallyController {
 		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
-		return new ResponseEntity<String>(queryResponse.getResults().toString(), HttpStatus.OK);
+		return ResponseEntity.ok(queryResponse.getResults().toString());
 	}
 }
