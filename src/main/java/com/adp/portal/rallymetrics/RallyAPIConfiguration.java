@@ -1,14 +1,11 @@
 package com.adp.portal.rallymetrics;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.adp.portal.rallymetrics.controller.RallyController;
-import com.google.common.base.Predicate;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -33,21 +30,14 @@ public class RallyAPIConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo());
     }
 	
 	private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Rally API for R9")
-                .description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum " +
-                        "has been the industry's standard dummy text ever since the 1500s, when an unknown printer "
-                        + "took a " +
-                        "galley of type and scrambled it to make a type specimen book. It has survived not only five " +
-                        "centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                        "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
-                        "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
-                        "versions of Lorem Ipsum.")
-                .termsOfServiceUrl("http://springfox.io")
+                .description("API to get information from Rally for the Portal team")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
                 .version("2.0")

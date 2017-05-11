@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adp.portal.rallymetrics.util.Fields;
+import com.adp.portal.rallymetrics.util.ProjectInfo;
 import com.adp.portal.rallymetrics.util.RestApiFactory;
 import com.adp.portal.rallymetrics.util.Services;
 import com.rallydev.rest.RallyRestApi;
@@ -26,8 +28,8 @@ public class RallyController {
 	public ResponseEntity<String> getMilestoneList(@RequestParam(value="numberOfMilestones", defaultValue="5") int numberOfMilestones) throws IOException {
 		
 		QueryRequest milestoneQuery = new QueryRequest(Services.MILESTONE.getValue());
-		milestoneQuery.setQueryFilter(new QueryFilter("Name", "contains", "Portal R9"));
-		milestoneQuery.setOrder("Name desc");
+		milestoneQuery.setQueryFilter(new QueryFilter(Fields.NAME.getValue(), "contains", ProjectInfo.PROJECT_NAME.getValue()));
+		milestoneQuery.setOrder(Fields.NAME.getValue() + " desc");
 		milestoneQuery.setPageSize(numberOfMilestones);
 		milestoneQuery.setLimit(numberOfMilestones);
 		
@@ -41,22 +43,29 @@ public class RallyController {
 			throws IOException {
 
 		QueryRequest usQuery = new QueryRequest(Services.USER_STORY.getValue());
-		usQuery.setFetch(new Fetch("FormattedId", "c_KanbanStatePortalLegacy", "SubmittedBy", "Owner", "Milestones",
-				"Iteration", "Release", "Project", "Tags", "Defects"));
-		usQuery.setProject("/project/9557401897");
+		
+		usQuery.setFetch(new Fetch(Fields.FORMATTED_ID.getValue(), Fields.KANBAN_STATE.getValue(), Fields.SUBMITTED_BY.getValue(), Fields.OWNER.getValue(),
+				Fields.MILESTONES.getValue(), Fields.ITERATION.getValue(), Fields.RELEASE.getValue(), Fields.PROJECT.getValue(), Fields.TAGS.getValue(), 
+				Fields.DEFECTS.getValue()));
+		
+		usQuery.setProject(ProjectInfo.PROJECT_ID.getValue());
 		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
 		return ResponseEntity.ok().body(queryResponse.getResults().toString());
 	}
 	
+	
 	@RequestMapping(value = "/defects", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getDefectsByRelease(@RequestParam(value="milestone", required=true) String milestone) throws IOException {
 		
 		QueryRequest usQuery = new QueryRequest(Services.DEFECT.getValue());
-		usQuery.setFetch(new Fetch("FormattedId", "c_KanbanStatePortalLegacy", "SubmittedBy", "Owner", "Milestones",
-				"Iteration", "Release", "Project", "Tags", "Defects"));
-		usQuery.setProject("/project/9557401897");
+		
+		usQuery.setFetch(new Fetch(Fields.FORMATTED_ID.getValue(), Fields.KANBAN_STATE.getValue(), Fields.SUBMITTED_BY.getValue(), Fields.OWNER.getValue(),
+				Fields.MILESTONES.getValue(), Fields.ITERATION.getValue(), Fields.RELEASE.getValue(), Fields.PROJECT.getValue(), Fields.TAGS.getValue(), 
+				Fields.DEFECTS.getValue()));
+		
+		usQuery.setProject(ProjectInfo.PROJECT_ID.getValue());
 		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
