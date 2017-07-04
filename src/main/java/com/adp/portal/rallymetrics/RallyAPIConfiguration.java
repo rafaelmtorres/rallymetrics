@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.adp.portal.rallymetrics.controller.RallyController;
+import com.adp.portal.rallymetrics.controller.MilestonesController;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackageClasses = {RallyController.class})
+@ComponentScan(basePackageClasses = {MilestonesController.class})
 public class RallyAPIConfiguration {
 	
 	public static void main(String[] args) {

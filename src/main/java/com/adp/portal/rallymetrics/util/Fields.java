@@ -12,7 +12,14 @@ public enum Fields {
 	RELEASE("Release"),
 	PROJECT("Project"),
 	TAGS("Tags"),
-	DEFECTS("Defects");
+	DEFECTS("Defects"),
+	NOTES("Notes"),
+	CREATION_DATE("CreationDate"),
+	OBJECT_ID("ObjectID"),
+	ARTIFACTS("Artifacts"),
+	TARGET_DATE("TargetDate"),
+	TOTAL_ARTIFACTS_COUNT("TotalArtifactCount");
+	
 	
 	private String value;
 	
