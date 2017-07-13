@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,9 +42,4 @@ public class DefectsController {
 		return ResponseEntity.ok(queryResponse.getResults().toString());
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> getDefectById(@PathVariable(value="id", required=true) String id){
-		
-		return ResponseEntity.ok("");
-	}
 }

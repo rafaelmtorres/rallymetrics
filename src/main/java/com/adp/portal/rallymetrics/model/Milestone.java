@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Milestone extends WorkspaceDomainObject{
 	
 	private String artifactRef;
