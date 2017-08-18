@@ -4,9 +4,12 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adp.portal.rallymetrics.util.Fields;
@@ -25,6 +28,7 @@ public class DefectsController {
 	
 	private final RallyRestApi rallyRestApi = RestApiFactory.getRestApi();
 	
+	@CrossOrigin(origins="*")
 	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getDefectsByRelease(@RequestParam(value="milestone", required=true) String milestone) throws IOException {
 
@@ -36,10 +40,9 @@ public class DefectsController {
 				Fields.TAGS.getValue(), Fields.DEFECTS.getValue()));
 		
 		usQuery.setProject(ProjectInfo.PROJECT_ID.getValue());
-		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
+		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "=", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
 		return ResponseEntity.ok(queryResponse.getResults().toString());
 	}
-	
 }

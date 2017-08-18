@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +26,7 @@ public class UserStoriesController {
 	
 	private final RallyRestApi rallyRestApi = RestApiFactory.getRestApi();
 	
+	@CrossOrigin(origins="*")
 	@RequestMapping(method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<String> getAllUserStoriesByRelease(@RequestParam(value="milestone", required=true) String milestone) throws IOException {
 		
@@ -36,22 +37,9 @@ public class UserStoriesController {
 				Fields.DEFECTS.getValue()));
 		
 		usQuery.setProject(ProjectInfo.PROJECT_ID.getValue());
-		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "contains", milestone));
+		usQuery.setQueryFilter(new QueryFilter("Milestones.Name", "=", milestone));
 
 		QueryResponse queryResponse = rallyRestApi.query(usQuery);
 		return ResponseEntity.ok().body(queryResponse.getResults().toString());
-	}
-	
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<String> getUserStoryById(@PathVariable(value="id", required=true) String id){
-		
-		return ResponseEntity.ok().body("");
-	}
-
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> deleteUserStoryById(@PathVariable(value="id", required=true) String id){
-		
-		return ResponseEntity.ok().body("");
 	}
 }
